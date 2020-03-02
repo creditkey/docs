@@ -13,7 +13,7 @@
 ---
 
 ## Synopsis
-This implementation guide should be reviewed before performing a merchant integration with Credit Key - either via SDK, or direct API. It should familiarize you with the general requirements of a Credit Key merchant implementation.
+This implementation guide should be reviewed before performing a merchant integration with Credit Key - either via SDK, or direct [API](https://app.swaggerhub.com/apis/creditkey/creditkey-merchant-api/1.1.0). It should familiarize you with the general requirements of a Credit Key merchant implementation.
 
 This guide will refer to various Credit Key API calls.  A similar name is used for each call in each official Credit Key SDK, and directly via the Credit Key API.  While this document refers to such API calls conceptually, you should refer to the documentation of the SDK you are using, or the general API documentation, for specific syntax.
 
