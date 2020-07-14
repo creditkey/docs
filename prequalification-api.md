@@ -59,8 +59,10 @@ Additional fields:
 Positive Response
 
 ```
-{:status=>:pass, :msg=>"CompanyName is pre-approved for up to $6,000.00 with Credit Key. 0% for 30 days, as low as 1% per month for longer terms. Pay over time with easy monthly terms, no hidden fees. Checking your rate will not affect your credit. <a href=\"https://www.creditkey.com/app/apply/{merchant-slug}\">Click to Apply Now</a>", :estimated_tcl=>6000, :estimated_rate=>1}
+{:status=>:pass, :msg=>"CompanyName is pre-approved for up to $6,000.00 with Credit Key. 0% for 30 days, as low as 1% per month for longer terms. Pay over time with easy monthly terms, no hidden fees. Checking your rate will not affect your credit. <a href=\"https://www.creditkey.com/app/apply/{merchant-slug}\">Click to Apply Now</a>", :estimated_tcl=>6000, :estimated_rate=>1, notification_endpoint: "https://www.creditkey.com/api/prequalification/5f0df294e817b366ba7c7124"}
 ```
+
+Optional: You can POST to the notification_endpoint to send an email notification to the borrower.  Details below.
 
 Negative Response - fico failure
 ```
@@ -77,3 +79,8 @@ Negative Response - GAR + Fico failure
 {:status=>:fail, :msg=>"CompanyName is unlikely to qualify for Credit Key terms. Minimum FICO score is 650. Minimum annual revenue is $40,000. "}
 ```
 
+# Optional Email Notification
+If you want to notify the customer of their prequalification, you can POST to the "notification_endpoint" URL given in the approval response.  
+```
+curl -d "public_key=XXXXXXXX&shared_secret=XXXXXXXX" -X POST http://localhost:9100/api/prequalification/5f0dd740e817b39961d4332a
+```
