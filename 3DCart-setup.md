@@ -45,7 +45,7 @@ Country: United States
 ```
 <script type="text/javascript">
     window.creditKey = window.creditKey || {};
-    window.creditKey.orderConfirmationUrl = '<order confirmation page URL>';
+    window.creditKey.orderConfirmationUrl = '<order confirmation page URL>?orderKey=%CKKEY%';
 </script>
 ```
 
@@ -64,79 +64,86 @@ Country: United States
 </script>
 ```
 
-4. Find the line ```<!--END: NO_PAYMENT_BLOCK-->``` and insert the following code immediately after this line:
+4. Find the line ```id="divPaymentMethods"``` and insert the following code immediately after this line:
 
 ```
+<div id="creditkey-payment-option" class="customGateway creditkey-payment dpm-provider hidden" >
+    <h4>
+        <label for="offline-[id]-credit">
+            <p class="creditkey-description"><input onclick="javascript:checkoutSwitch(false);controlDivPayment('[id]-custom-credit');javascript:window.creditKey.beginCheckout();" id="offline-[id]-credit" name="payment" type="radio" value="offline-[id]-credit" [FIRSTOPTIONCHECKED] />
+            <span>Credit Key</span> 0% for up to 30 days. Get a decision in seconds.</p>
+        </label>
+    </h4>
+    <div class="clear"></div>
+    <div id="divPaymentOption[id]-custom-credit" name="divPaymentOption" style="display:none;">
+        <div class="payment-desc">
+            <div class="creditkey-checkout-section">
+                <div class="creditkey-logo-section">
+                    <a href="javascript:document.getElementById('offline-[id]-credit').click();"><img src="https://www.creditkey.com/app/merchant-checkout-assets/CK-btn@2x.png" alt="Credit Key" /></a>
+                </div>
+            </div>
+            <p id="creditkey-error-message" class="creditkey-error">There was an error while trying to check out with Credit Key. Please try again later.</p>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
 <style>
     .creditkey-payment.hidden {
         display: none;
     }
-
     .creditkey-checkout-section {
         display: flex;
         flex-flow: row;
         align-items: center;
         justify-content: flex-start;
     }
-
     .creditkey-logo-section {
         flex-grow: 1;
     }
-
     .creditkey-logo-section img {
         width: 242px;
     }
-
+    p.creditkey-description span{
+        font-weight: 700;
+        color: #4a4a4a;
+        font-size: 16px;
+    }
     p.creditkey-description {
-        margin-left: 25px;
         color: #19AD58;
         font-size: 14px;
         font-weight: bold;
+        margin:0;
     }
-
     .creditkey-radio {
         margin-right: 5px;
     }
-
     .creditkey-error {
         display: none;
         color: #fd3740;
         font-size: 14px;
         font-weight: bold;
-    }
-
+    }		
     .creditkey-error.show {
         display: block;
     }
+    .creditkey-modal {
+        overflow: auto;
+    }
 </style>
 
-<div id="creditkey-payment-option" class="creditkey-payment hidden">
-    <h4>Credit Key</h4>
-    <div class="creditkey-checkout-section">
-        <div class="creditkey-radio">
-            <input name="creditkey-payment" onclick="javascript:window.creditKey.beginCheckout();" type="radio" id="creditkey-payment-radio" />
-        </div>
-        <div class="creditkey-logo-section">
-            <a href="javascript:document.getElementById('creditkey-payment-radio').click();"><img src="https://www.creditkey.com/app/merchant-checkout-assets/CK-btn@2x.png" alt="Credit Key"/></a>
-        </div>
-    </div>
-    <p class="creditkey-description">
-        0% for up to 30 days. Get a decision in seconds.
-    </p>
-    <p id="creditkey-error-message" class="creditkey-error">
-        There was an error while trying to check out with Credit Key.  Please try again later.
-    </p>
-    <div class="clear"></div>
-</div>
 ```
 
-5. Find the line ```<!--START: CUSTOM-->```.  In the ```div``` containing the HTML for a payment method (possibly containing the CSS class ```customGateway```), add an ```id``` attribute of ```offline-payment-[id]``` like so:
+5. Replace [id] with payment id number from the custom gateway id. 
+
+
+6. Find the line ```<!--START: CUSTOM-->```.  In the ```div``` containing the HTML for a payment method (possibly containing the CSS class ```customGateway```), add an ```id``` attribute of ```offline-payment-[id]``` like so:
 
 ```
 <div id="offline-payment-[id]" class="customGateway">
 ```
 
-6. Find the line by ```<!--START: DISPLAY_PROMOS-->``` and insert the following immediately afterward:
+7. Find the line by ```<!--START: DISPLAY_PROMOS-->``` and insert the following immediately afterward:
 ```
 <script>
     window.creditKey = window.creditKey || {};
@@ -149,7 +156,7 @@ Country: United States
 </script>
 ```
 
-7. Insert the following code into the very bottom of the file - replacing ```<public key>``` with the public key given to you by Credit Key, and replacing the ```<payment method ID>``` with the payment method ID you saved when you created the payment method in steps 1 through 3.
+8. Insert the following code into the very bottom of the file - replacing ```<public key>``` with the public key given to you by Credit Key, and replacing the ```<payment method ID>``` with the payment method ID you saved when you created the payment method in steps 1 through 3.
 
 ```
 <script type="text/javascript" src="https://www.creditkey.com/app/merchant-asset/3dcart.js?public_key=<public key>&payment_method_id=<payment method ID>"></script>
@@ -160,7 +167,7 @@ Country: United States
 </style>
 ```
 
-8. Find ```<!-- START: GIFTCERTS -->``` and place the following immediately BEFORE it:
+9. Find ```<!-- START: GIFTCERTS -->``` and place the following immediately BEFORE it:
 
 ```
 <script>
@@ -196,6 +203,14 @@ Webhook URL: https://www.creditkey.com/app/3dcart/order_update?public_key=<publi
 Format: JSON
 Event: Order Status Change
 ```
+
+## Set up REST API connection
+
+1. In the 3DCart admin, navigate to "Modules", and type "REST API" into the search box.  Click the "Settings" button.
+
+2. Click "Add" and enter the REST API Key provided by Credit Key. Then click "Save".
+
+
 
 ## Testing
 
