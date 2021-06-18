@@ -6,6 +6,7 @@
 - [Return to Merchant after Credit Key Checkout](#return-to-merchant-after-credit-key-checkout)
     - [Return URL](#return-url)
     - [Cancel URL](#cancel-url)
+    - [Order Complete URL](#order-complete-url)
     - [Actions Upon Return](#actions-upon-return)
 - [Merchant Order ID](#merchant-order-id)
 - [Authorize and Capture](#authorize-and-capture)
@@ -48,6 +49,10 @@ We recommend creating a session-specific URL for each request that contains iden
 
 ### Cancel URL
 Credit Key will redirect users to the Cancel URL when checkout was not completed successfully - such as when the user canceled the Credit Key checkout session, or if the user was not able to be approved for a loan.  In many cases, you can simply provide the URL to your checkout page for the Cancel URL.  But if you want to take another action besides going back to the checkout page, or perform tracking, you can redirect elsewhere.
+
+### Order Complete URL
+
+The Order Complete URL will be a URL on your system that Credit Key will use for pended applications. Orders can be administratively approved (in the event that the return_url is not applicable) for cleared applications. The order_complete_url should be set up specially for Credit Key to submit orders independently of the borrowers client state.
 
 ### Actions Upon Return
 
